@@ -324,7 +324,10 @@ func (s *HTMLEngine) layoutFuncsFor(name string, binding interface{}) {
 			return name, nil
 		},
 		"partial": func(partialName string) (template.HTML, error) {
-			fullPartialName := fmt.Sprintf("%s-%s", partialName, name)
+			//fullPartialName := fmt.Sprintf("%s-%s", partialName, name)
+			ext := filepath.Ext(name)
+			root := name[:len(name)-len(ext)]
+			fullPartialName := fmt.Sprintf("%s%s%s", root, partialName, ext)
 			if s.Templates.Lookup(fullPartialName) != nil {
 				buf, err := s.executeTemplateBuf(fullPartialName, binding)
 				return template.HTML(buf.String()), err
